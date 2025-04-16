@@ -33,6 +33,11 @@ $]: $] := echo Processing $< using $(helper_var)
 $]: $[; < $< $($@) > $@
 endif
 
+# Comment by lazy human
+# To grok `target: | order-only-prerequisites; recipe`
+# like in `$]: | tmp; $($@) > $@`
+# see https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
+
 ] := tmp/file.js
 $]: grep := ^./([.]git|tmp)/
 $]: jq := (. / "/")[-1] as $$name | ($$name / ".") as $$dot
