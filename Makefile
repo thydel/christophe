@@ -6,6 +6,33 @@ $(dirs):; mkdir -p $@
 base := HeuristNetwork/heurist
 main :=
 
+# Comments by Gemini 2.5 pro (required multiple itérations and have to
+# give him part of the doc)
+ifdef NEVER
+# Set dependencies/prerequisites for the subsequent rule in the ']' variable.
+# This name is used by '$]:' prefixed lines below, which expand to standard Make
+# target-specific variable assignments (target: variable := value).
+] := target_file.out
+
+# Define a target-specific variable 'helper_var' for the target 'target_file.out'.
+# '$]:' expands to 'target_file.out:', creating 'target_file.out: helper_var :=...'
+$]: helper_var := some_value
+
+# Define a target-specific variable named after the target itself ('target_file.out')
+# and assign the recipe command string to it.
+# '$]: $]' expands to 'target_file.out: target_file.out :=...'
+$]: $] := echo Processing $< using $(helper_var)
+
+# Define the rule execution logic using target-specific context.
+# '$]:' expands to 'target_file.out:', creating the start of a rule definition.
+# '$[' expands the prerequisites stored in the '[' variable.
+# '$($@)' expands the target-specific variable named after the target ($@), executing
+# the recipe stored via the '$]: $] :=...' assignment above.
+# Standard Make constructs like '< $<' (input redirection) and '> $@' (output redirection)
+# are used within the execution structure.
+$]: $[; < $< $($@) > $@
+endif
+
 ] := tmp/file.js
 $]: grep := ^./([.]git|tmp)/
 $]: jq := (. / "/")[-1] as $$name | ($$name / ".") as $$dot
